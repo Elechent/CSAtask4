@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea name="" id="text" cols="80" rows="10"></textarea>
+    <button id="post">点击发布</button>
+    <div id="list">
+    </div>
+
+    <script>
+        let text = document.getElementById("text");
+        let btn = document.getElementById("post");
+        let list = document.getElementById("list");
+
+        btn.addEventListener("click",clear,false);
+    
+        function clear(e){
+            console.log(text.value);
+            let txt = text.value;
+            list.innerHTML += '<p>' + txt + '<p>';
+            text.value = "";
+        }
+    </script>
+</body>
+</html>

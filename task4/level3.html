@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #all {
+            height: 650px;
+            width: 750px;
+            margin: 0 auto;
+        }
+
+        #all button {
+            background-color: blanchedalmond;
+            height: 30px;
+            width: 70px;
+            text-align: center;
+        }
+
+        #function {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        #bar {
+            height: 500px;
+            width: 750px;
+            background-color: aqua;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="all">
+        <div id="function">
+            <input type="text" id="input">
+            <button id="leftin">左侧入</button>
+            <button id="rightin">右侧入</button>
+            <button id="leftout">左侧出</button>
+            <button id="rightout">右侧出</button>
+            <button id="sort">重新排序</button>
+            <button id="clear">清空</button>
+            <button id="random">随机生成</button>
+        </div>
+
+        <div id="bar">
+
+        </div>
+    </div>
+
+    <script>
+        let txt = document.getElementById("input");
+        let li = document.getElementById("leftin");
+        let lo = document.getElementById("leftout");
+        let ri = document.getElementById("rightin");
+        let ro = document.getElementById("rightout");
+        let clear = document.getElementById("clear");
+        let ran = document.getElementById("random");
+        let st = document.getElementById("sort")
+        let bar = document.getElementById("bar");
+        let divarr=[];
+        // 判断函数
+        function test() {
+            let num = txt.value;
+            if (num < 10 || num > 100) {
+                alert("请输入10-100的数");
+                return false;
+            } else return true;
+        }
+
+        // 生成div函数
+        function stl(div, high) {
+            div.style.height = high * 6 + "px";
+            div.style.width = "100px";
+            div.style.margin = "2px";
+            div.style.backgroundColor = "red";
+            div.style.textalign = "center";
+            div.innerHTML = high;
+        }
+
+        // 左侧入函数
+        li.addEventListener("click", function () {
+            if (test()) {
+                let new1 = document.createElement("div");
+                let high = txt.value;
+                divarr.unshift(high)
+                stl(new1, high);
+                bar.insertBefore(new1, bar.firstElementChild);
+            }
+        });
+
+        // 右侧入
+        ri.addEventListener("click", function () {
+            if (test()) {
+                let new1 = document.createElement("div");
+                let high = txt.value;
+                divarr.push(high)
+                stl(new1, high);
+                bar.appendChild(new1);
+            }
+        })
+
+        // 左侧出函数   
+        lo.addEventListener("click", function () {
+            divarr.shift()
+            let out = bar.firstElementChild;
+            bar.removeChild(out);
+        })
+
+        //  右侧出
+        ro.addEventListener("click", function () {
+            let out = bar.lastElementChild;
+            divarr.pop()
+            bar.removeChild(out);
+        })
+
+        // 清空
+        clear.addEventListener("click", function () {
+            let out = bar.firstElementChild;
+            divarr.length = 0;
+            while (out) {
+                bar.removeChild(out);
+                out = bar.firstElementChild;
+            }
+        })
+
+        // 随机生成
+        function randomNum() {
+            let arr = new Array();
+            for (let i = 0; i < 10; i++) {
+                let rand = parseInt(Math.random() * 100);
+                arr.push(rand);
+            }
+            console.log(arr);
+            divarr.push(...arr)
+            for (let i = 0; i < arr.length; i++) {
+                let new1 = document.createElement("div");
+                stl(new1, arr[i]);
+                new1.style.height = arr[i] * 6 + "px";
+                bar.appendChild(new1);
+            }
+        }
+        ran.addEventListener("click", randomNum);
+
+        // 排序
+        function mysort() {
+         divarr.sort((a,b)=>a-b)
+         console.log(divarr);
+         bar.innerHTML=''
+         for (let i = 0; i < divarr.length; i++) {
+                let new1 = document.createElement("div");
+                stl(new1, divarr[i]);
+                new1.style.height = divarr[i] * 6 + "px";
+                bar.appendChild(new1);
+            }
+        }
+        st.addEventListener("click", mysort)
+    </script>
+</body>
+
+</html>
